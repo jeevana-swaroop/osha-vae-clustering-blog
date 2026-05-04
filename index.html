@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Occupational Injury Pattern Discovery using VAE Clustering</title>
+  <meta name="description" content="A project blog comparing embedding-based VAE clustering with K-Means for OSHA occupational injury pattern discovery." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="#top">OSHA VAE Clustering</a>
+      <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#results">Results</a>
+        <a href="#comparison">Comparison</a>
+        <a href="#impact">Impact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Deep Learning • Unsupervised Learning • Workplace Safety</p>
+        <h1>Occupational Injury Pattern Discovery using Embedding-Based VAE Clustering</h1>
+        <p class="hero-text">
+          This project explores OSHA severe injury records using a deep learning based unsupervised pipeline. We compare an embedding-based Variational Autoencoder (VAE) against a traditional K-Means baseline to discover meaningful workplace injury patterns.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#results">View Results</a>
+          <a class="btn secondary" href="#methodology">See Methodology</a>
+        </div>
+      </div>
+      <div class="hero-card reveal delay-1">
+        <div class="metric-card big">
+          <span class="metric-label">Dataset Size</span>
+          <span class="metric-value">103,750</span>
+          <span class="metric-note">OSHA injury records after preprocessing</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric-card"><span>Features</span><strong>8+</strong></div>
+          <div class="metric-card"><span>Clusters</span><strong>8</strong></div>
+          <div class="metric-card"><span>Models</span><strong>VAE + K-Means</strong></div>
+          <div class="metric-card"><span>Goal</span><strong>Pattern Discovery</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section-shell split-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">About the Project</p>
+        <h2>From injury labels to real-world risk scenarios</h2>
+      </div>
+      <div class="content-card reveal delay-1">
+        <p>
+          Existing occupational injury analysis often focuses on high-level categories such as fractures, amputations, or hospitalizations. While useful, these labels do not fully explain the underlying workplace scenario that caused the injury.
+        </p>
+        <p>
+          This project asks whether a deep generative representation can uncover richer patterns by jointly learning from injury nature, body part, event, source, industry code, and severity indicators. The goal is to identify actionable scenarios such as ladder-related falls, machinery-induced amputations, forklift accidents, and heat/electrical exposure.
+        </p>
+      </div>
+    </section>
+
+    <section id="methodology" class="section-shell">
+      <div class="section-heading center reveal">
+        <p class="eyebrow">Methodology</p>
+        <h2>Embedding-based VAE pipeline</h2>
+        <p>The notebook follows a structured workflow from raw OSHA CSV preprocessing to latent-space clustering and baseline comparison.</p>
+      </div>
+
+      <div class="timeline reveal delay-1">
+        <article class="step-card">
+          <span class="step-number">01</span>
+          <h3>Preprocess OSHA Data</h3>
+          <p>Loaded the OSHA CSV, selected relevant structured columns, handled missing values, cleaned binary fields, and grouped rare categories into <code>Other</code>.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">02</span>
+          <h3>Encode Structured Features</h3>
+          <p>Each categorical feature was integer-encoded separately so that it could be passed through its own embedding layer.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">03</span>
+          <h3>Train VAE</h3>
+          <p>The VAE embedded categorical fields, concatenated them with binary severity indicators, encoded them into latent mean and variance, and reconstructed the original structured record.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">04</span>
+          <h3>Cluster Latent Space</h3>
+          <p>Clustering was performed on the latent mean vector, which is more stable than sampled latent vectors. K-Means was used as a baseline on raw encoded features.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="results" class="section-shell results-section">
+      <div class="section-heading center reveal">
+        <p class="eyebrow">Results</p>
+        <h2>VAE discovers scenario-driven clusters</h2>
+        <p>Instead of grouping only by injury outcome, the VAE clusters combine injury nature, event mechanism, source, and body part.</p>
+      </div>
+
+      <div class="cluster-grid" id="clusterGrid"></div>
+    </section>
+
+    <section class="section-shell plot-section">
+      <div class="section-heading center reveal">
+        <p class="eyebrow">Cluster Visualization</p>
+        <h2>Latent-space structure vs hard partitioning</h2>
+      </div>
+      <div class="plot-grid reveal delay-1">
+        <figure class="plot-card">
+          <img src="assets/vae-clusters.png" alt="VAE latent clusters visualization" />
+          <figcaption><strong>VAE clusters:</strong> smooth, overlapping regions that represent continuous relationships between injury scenarios.</figcaption>
+        </figure>
+        <figure class="plot-card">
+          <img src="assets/kmeans-clusters.png" alt="K-Means cluster visualization" />
+          <figcaption><strong>K-Means clusters:</strong> sharper, more rigid partitions driven by dominant feature similarity.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="comparison" class="section-shell">
+      <div class="section-heading center reveal">
+        <p class="eyebrow">Model Comparison</p>
+        <h2>VAE vs K-Means</h2>
+        <p>The key difference is that VAE clusters represent workplace scenarios, while K-Means clusters mostly follow dominant labels.</p>
+      </div>
+
+      <div class="table-card reveal delay-1">
+        <div class="table-header">
+          <h3>Cluster Count Comparison</h3>
+          <p>VAE produces a more balanced cluster distribution, while K-Means is heavily skewed toward a few dominant groups.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cluster ID</th>
+                <th>VAE Size</th>
+                <th>VAE %</th>
+                <th>K-Means Size</th>
+                <th>K-Means %</th>
+              </tr>
+            </thead>
+            <tbody id="countTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-card reveal delay-2">
+        <div class="table-header">
+          <h3>Semantic Comparison</h3>
+          <p>Examples of what the VAE captures compared with the closest K-Means interpretation.</p>
+        </div>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th>Cluster</th>
+                <th>VAE Pattern</th>
+                <th>VAE Characteristics</th>
+                <th>Closest K-Means</th>
+                <th>K-Means Interpretation</th>
+                <th>Key Difference</th>
+              </tr>
+            </thead>
+            <tbody id="semanticTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact" class="section-shell impact-section">
+      <div class="impact-card reveal">
+        <p class="eyebrow">Real-world Usefulness</p>
+        <h2>Turning clusters into targeted safety actions</h2>
+        <p>
+          These VAE-derived clusters enable organizations to move beyond generic injury statistics and identify specific real-world risk scenarios, such as ladder-related falls, machinery-induced amputations, or forklift accidents. This supports targeted training, inspections, policies, and prevention strategies that address the causes of workplace incidents rather than only their outcomes.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-shell conclusion-section">
+      <div class="section-heading center reveal">
+        <p class="eyebrow">Conclusion</p>
+        <h2>Deep latent representations produce more actionable clusters</h2>
+      </div>
+      <div class="conclusion-grid reveal delay-1">
+        <div class="conclusion-card">
+          <h3>Key Finding</h3>
+          <p>VAE clustering captures real-world injury scenarios by combining event, source, body part, and injury type.</p>
+        </div>
+        <div class="conclusion-card">
+          <h3>Baseline Limitation</h3>
+          <p>K-Means primarily groups by dominant labels such as fractures or amputations, losing important context.</p>
+        </div>
+        <div class="conclusion-card">
+          <h3>Final Takeaway</h3>
+          <p>VAE-based clustering provides more meaningful, interpretable, and actionable insights for occupational safety analysis.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built as a static GitHub Pages blog for OSHA injury pattern discovery.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
