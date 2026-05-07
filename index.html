@@ -13,7 +13,7 @@
 <body>
   <header class="site-header">
     <nav class="nav">
-      <a class="brand" href="#top">OSHA VAE Clustering</a>
+      <a class="brand" href="#top">OSHA VAE Clustering | Drianna Walker & Jeevana Swaroop Kalapala</a>
       <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
       <div class="nav-links">
         <a href="#about">About</a>
@@ -126,6 +126,41 @@
       </div>
     </section>
 
+  <section id="dbscan" class="section-shell">
+    <div class="section-heading center reveal">
+      <p class="eyebrow">Validation</p>
+      <h2>DBSCAN Results</h2>
+      <p>Density-based clustering used to validate the natural number of clusters without pre-specifying k.</p>
+    </div>
+    <div class="table-card reveal delay-1">
+      <div class="table-header">
+        <h3>DBSCAN Cluster Distribution (eps=2)</h3>
+        <p>50,000 record subset | 8 clusters found | 0.1% noise points</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Cluster</th><th>Size</th><th>Event Type</th><th>Nature</th><th>Body Part</th><th>Hospitalized</th></tr>
+          </thead>
+          <tbody id="dbscanTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="table-card reveal delay-2">
+      <div class="table-header">
+        <h3>Key DBSCAN Insights</h3>
+      </div>
+      <div class="content-card">
+        <ul>
+          <li><strong>Falls dominate:</strong> 35,734 cases (71%) - all hospitalized</li>
+          <li><strong>Caught-in machinery splits by severity:</strong> Fingertip injuries (0% hospitalized) vs full finger amputations (100% hospitalized)</li>
+          <li><strong>Only 0.1% noise:</strong> Data has clear natural groupings</li>
+          <li><strong>Validates ~8 clusters:</strong> DBSCAN found 8 clusters, matching VAE results (8 natural patterns)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+    
     <section id="comparison" class="section-shell">
       <div class="section-heading center reveal">
         <p class="eyebrow">Model Comparison</p>
@@ -177,6 +212,38 @@
       </div>
     </section>
 
+  <section id="randomforest" class="section-shell">
+    <div class="section-heading center reveal">
+      <p class="eyebrow">Bonus: Supervised Validation</p>
+      <h2>Random Forest Feature Importance</h2>
+      <p>Using supervised learning to identify which features most strongly predict injury severity.</p>
+    </div>
+    <div class="table-card reveal delay-1">
+      <div class="table-header">
+        <h3>Predicting Hospitalization (92% avg. accuracy)</h3>
+        <p>5-fold cross-validation | 103,750 records</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Rank</th><th>Feature</th><th>Importance</th></tr>
+          </thead>
+          <tbody id="hospTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="content-card reveal delay-2">
+      <div class="table-header">
+        <h3>Key Takeaways</h3>
+      </div>
+      <ul>
+        <li><strong>Part of Body & Nature of Injury</strong> are the strongest predictors of hospitalization</li>
+        <li><strong>Geographic features</strong> (latitude, employer, zip code) also matter - suggests hospital access varies by location</li>
+        <li><strong>92% accuracy</strong> indicates hospitalization is highly predictable from available data</li>
+      </ul>
+    </div>
+  </section>
+    
     <section id="impact" class="section-shell impact-section">
       <div class="impact-card reveal">
         <p class="eyebrow">Real-world Usefulness</p>
@@ -210,7 +277,7 @@
   </main>
 
   <footer class="footer">
-    <p>Built as a static GitHub Pages blog for OSHA injury pattern discovery.</p>
+    <p>Built by Drianna Walker & Jeevana Swaroop Kalapala as a static GitHub Page for OSHA injury pattern discovery.</p>
   </footer>
 
   <script src="script.js"></script>
