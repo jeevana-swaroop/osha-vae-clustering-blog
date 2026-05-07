@@ -138,6 +138,91 @@ function setupNavigation() {
   });
 }
 
+// DBSCAN Results Data
+const dbscanData = [
+  { cluster: 1, size: 35734, event: "Other fall to lower level", nature: "Fractures", bodyPart: "Multiple body parts", hosp: "100%" },
+  { cluster: 0, size: 9260, event: "Caught in running equipment", nature: "Amputations", bodyPart: "Fingertip(s)", hosp: "0%" },
+  { cluster: 3, size: 3555, event: "Caught in running equipment", nature: "Amputations", bodyPart: "Finger(s)", hosp: "100%" },
+  { cluster: 2, size: 925, event: "Exposure to environmental heat", nature: "Fractures", bodyPart: "Body systems", hosp: "100%" },
+  { cluster: 4, size: 258, event: "Inhalation of harmful substance", nature: "Fractures", bodyPart: "Nonclassifiable", hosp: "200%" },
+  { cluster: 5, size: 145, event: "Compressed or pinched by shifting", nature: "Amputations", bodyPart: "Fingertip(s)", hosp: "0%" },
+  { cluster: 6, size: 66, event: "Compressed or pinched by shifting", nature: "Amputations", bodyPart: "Finger(s)", hosp: "100%" },
+  { cluster: 7, size: 6, event: "Struck by dislodged flying object", nature: "Avulsions", bodyPart: "Eye(s)", hosp: "100%" }
+];
+
+// Random Forest Results
+const hospFeatures = [
+  { rank: 1, feature: "Part of Body", importance: 0.195 },
+  { rank: 2, feature: "Nature of Injury Title", importance: 0.192 },
+  { rank: 3, feature: "Nature of Injury", importance: 0.127 },
+  { rank: 4, feature: "Part of Body Title", importance: 0.063 },
+  { rank: 5, feature: "Event Title", importance: 0.049 },
+  { rank: 6, feature: "Event", importance: 0.041 },
+  { rank: 7, feature: "Latitude", importance: 0.040 },
+  { rank: 8, feature: "Longitude", importance: 0.037 },
+  { rank: 9, feature: "Employer", importance: 0.036 },
+  { rank: 10, feature: "Zip Code", importance: 0.036 }
+];
+
+const ampFeatures = [
+  { rank: 1, feature: "Nature of Injury Title", importance: 0.345 },
+  { rank: 2, feature: "Part of Body", importance: 0.230 },
+  { rank: 3, feature: "Nature of Injury", importance: 0.207 },
+  { rank: 4, feature: "Part of Body Title", importance: 0.071 },
+  { rank: 5, feature: "Event Title", importance: 0.056 },
+  { rank: 6, feature: "Event", importance: 0.041 },
+  { rank: 7, feature: "Source Title", importance: 0.014 },
+  { rank: 8, feature: "Source", importance: 0.010 },
+  { rank: 9, feature: "Primary NAICS", importance: 0.005 },
+  { rank: 10, feature: "Latitude", importance: 0.004 }
+];
+
+// Render DBSCAN table
+function renderDBSCAN() {
+  const body = document.getElementById("dbscanTable");
+  if (body) {
+    body.innerHTML = dbscanData.map(row => `
+      <tr>
+        <td>${row.cluster}</td>
+        <td>${row.size.toLocaleString()}</td>
+        <td>${row.event}</td>
+        <td>${row.nature}</td>
+        <td>${row.bodyPart}</td>
+        <td>${row.hosp}</td>
+      </tr>
+    `).join("");
+  }
+}
+
+// Render Random Forest tables
+function renderRandomForest() {
+  const hospBody = document.getElementById("hospTable");
+  if (hospBody) {
+    hospBody.innerHTML = hospFeatures.map(row => `
+      <tr>
+        <td>${row.rank}</td>
+        <td>${row.feature}</td>
+        <td>${row.importance.toFixed(3)}</td>
+      </tr>
+    `).join("");
+  }
+  
+  const ampBody = document.getElementById("ampTable");
+  if (ampBody) {
+    ampBody.innerHTML = ampFeatures.map(row => `
+      <tr>
+        <td>${row.rank}</td>
+        <td>${row.feature}</td>
+        <td>${row.importance.toFixed(3)}</td>
+      </tr>
+    `).join("");
+  }
+}
+
+// Call the new render functions
+renderDBSCAN();
+renderRandomForest();
+
 renderClusters();
 renderTable("countTable", countRows);
 renderTable("semanticTable", semanticRows);
