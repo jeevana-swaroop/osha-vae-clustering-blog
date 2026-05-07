@@ -164,19 +164,6 @@ const hospFeatures = [
   { rank: 10, feature: "Zip Code", importance: 0.036 }
 ];
 
-const ampFeatures = [
-  { rank: 1, feature: "Nature of Injury Title", importance: 0.345 },
-  { rank: 2, feature: "Part of Body", importance: 0.230 },
-  { rank: 3, feature: "Nature of Injury", importance: 0.207 },
-  { rank: 4, feature: "Part of Body Title", importance: 0.071 },
-  { rank: 5, feature: "Event Title", importance: 0.056 },
-  { rank: 6, feature: "Event", importance: 0.041 },
-  { rank: 7, feature: "Source Title", importance: 0.014 },
-  { rank: 8, feature: "Source", importance: 0.010 },
-  { rank: 9, feature: "Primary NAICS", importance: 0.005 },
-  { rank: 10, feature: "Latitude", importance: 0.004 }
-];
-
 // Render DBSCAN table
 function renderDBSCAN() {
   const body = document.getElementById("dbscanTable");
@@ -199,17 +186,6 @@ function renderRandomForest() {
   const hospBody = document.getElementById("hospTable");
   if (hospBody) {
     hospBody.innerHTML = hospFeatures.map(row => `
-      <tr>
-        <td>${row.rank}</td>
-        <td>${row.feature}</td>
-        <td>${row.importance.toFixed(3)}</td>
-      </tr>
-    `).join("");
-  }
-  
-  const ampBody = document.getElementById("ampTable");
-  if (ampBody) {
-    ampBody.innerHTML = ampFeatures.map(row => `
       <tr>
         <td>${row.rank}</td>
         <td>${row.feature}</td>
